@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>myTV</title>
+    <style>
+        body{font-family:sans-serif;background:#1a1a2e;color:#eee;display:flex;
+             justify-content:center;align-items:center;min-height:100vh;margin:0}
+        .card{background:#16213e;border-radius:16px;padding:40px;max-width:700px;
+              width:100%;box-shadow:0 8px 32px rgba(0,0,0,.4)}
+        h1{margin:0 0 6px;font-size:2.2em}
+        .sub{color:#aaa;margin-bottom:20px}
+        .pill{display:inline-block;background:#0f3460;border-radius:20px;
+              padding:4px 14px;font-size:.85em;margin-bottom:24px}
+        .url-box{background:#0f3460;border-radius:10px;padding:18px;margin:14px 0}
+        .label{font-size:.75em;text-transform:uppercase;letter-spacing:1px;
+               color:#7ec8e3;margin-bottom:8px}
+        .url{font-family:monospace;font-size:.9em;word-break:break-all}
+        .btn{margin-top:10px;background:#e94560;border:none;color:#fff;
+             padding:8px 18px;border-radius:6px;cursor:pointer;font-size:.85em}
+        .btn:hover{background:#c73652}
+        .steps{margin-top:28px;border-top:1px solid #333;padding-top:20px}
+        .steps h3{color:#7ec8e3;margin-bottom:12px}
+        .steps ol{margin:0 0 0 18px;line-height:2;color:#ccc}
+    </style>
+</head>
+<body>
+<div class="card">
+    <h1>TV myTV</h1>
+    <p class="sub">Auto-updating IPTV playlist for Canada</p>
+    <span class="pill">1644 channels | Updates every 6 hours</span>
+
+    <div class="url-box">
+        <div class="label">M3U Playlist URL</div>
+        <div class="url" id="m3u">https://Debe2025.github.io/myTV/playlist.m3u8</div>
+        <button class="btn" onclick="copy('m3u')">Copy</button>
+    </div>
+
+    <div class="url-box">
+        <div class="label">EPG / TV Guide URL</div>
+        <div class="url" id="epg">https://Debe2025.github.io/myTV/epg.xml.gz</div>
+        <button class="btn" onclick="copy('epg')">Copy</button>
+    </div>
+
+    <div class="steps">
+        <h3>Setup in Kodi</h3>
+        <ol>
+            <li>Install <strong>PVR IPTV Simple Client</strong> from Kodi repo</li>
+            <li>Set M3U and EPG URLs above in its settings</li>
+            <li>Settings &rarr; PVR &amp; Live TV &rarr; Enable Live TV</li>
+            <li>TV &rarr; Channels &rarr; Enjoy!</li>
+        </ol>
+    </div>
+</div>
+<script>
+function copy(id){
+    navigator.clipboard.writeText(document.getElementById(id).textContent);
+    event.target.textContent='Copied!';
+    setTimeout(()=>event.target.textContent='Copy',2000);
+}
+</script>
+</body>
+</html>

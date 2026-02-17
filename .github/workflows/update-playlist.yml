@@ -1,0 +1,44 @@
+﻿name: Update Playlist
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Detect location
+        id: geo
+        run: |
+          DATA=$(curl -s http://ip-api.com/json/)
+          CC=$(echo $DATA | python3 -c "import sys,json; print(json.load(sys.stdin)['countryCode'].lower())")
+          CN=$(echo $DATA | python3 -c "import sys,json; print(json.load(sys.stdin)['country'])")
+          echo "country_code=$CC" >> $GITHUB_OUTPUT
+          echo "country_name=$CN" >> $GITHUB_OUTPUT
+
+      - name: Generate playlist and fetch EPG
+        env:
+          COUNTRY_CODE:    ${{ steps.geo.outputs.country_code }}
+          EPG_FETCHER_URL: ${{ secrets.EPG_FETCHER_URL }}
+        run: python scripts/generate_playlist.py
+
+      - name: Commit updated files
+        run: |
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name  "github-actions[bot]"
+          git add docs/playlist.m3u8 docs/epg.xml.gz docs/index.html
+          git diff --staged --quiet || git commit -m "Update playlist - ${{ steps.geo.outputs.country_name }}"
+          git push
