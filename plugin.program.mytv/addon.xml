@@ -7,7 +7,7 @@
         <dir>
             <info compressed="false">https://Debe2025.github.io/myTV/addons.xml</info>
             <checksum>https://Debe2025.github.io/myTV/addons.xml.md5</checksum>
-            <datadir zip="true">https://Debe2025.github.io/myTV/</datadir>
+            <datadir zip="true">https://Debe2025.github.io/myTV/zips/</datadir>
         </dir>
     </extension>
     <extension point="xbmc.addon.metadata">
